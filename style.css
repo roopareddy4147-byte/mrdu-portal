@@ -1,0 +1,124 @@
+/* Background gradient based on logo colors */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom, #ff9933 0%, #ffffff 50%, #0099ff 100%);
+  color: #002b5b;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 20px;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+h1 {
+  margin: 10px 0 5px;
+  font-size: 1.8rem;
+  color: #002b5b;
+}
+
+h2 {
+  margin: 5px 0;
+  font-weight: normal;
+  color: #005a2b;
+}
+
+.slogan {
+  font-weight: bold;
+  color: #ff6600;
+  margin-bottom: 10px;
+}
+
+/* Navigation bar */
+nav {
+  background-color: rgba(0, 102, 204, 0.9);
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+nav a:hover {
+  background: #00a86b;
+}
+
+/* Main content */
+main {
+  text-align: center;
+  padding: 30px 15px 70px;
+}
+
+.welcome h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+
+/* Footer */
+footer {
+  background-color: #003366;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  font-size: 0.9em;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.3rem;
+  }
+  h2 {
+    font-size: 1rem;
+  }
+  .logo {
+    width: 80px;
+  }
+  nav {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

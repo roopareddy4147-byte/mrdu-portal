@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malla Reddy University Classroom</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Basic styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Logo container */
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo {
+      width: 150px;            /* Adjust logo size here */
+      height: 150px;
+      object-fit: contain;     /* Ensures the logo stays proper */
+      object-position: center;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #007bff;
+    }
+
+    main {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      font-size: 18px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #f1f1f1;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <!-- Updated logo -->
+      <img src="collagelogo.jpg" alt="Malla Reddy University Logo" class="logo">
+    </div>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Assignments</a>
+      <a href="#">Notes</a>
+      <a href="#">Announcements</a>
+      <a href="#">Timetable</a>
+      <a href="#">Chat</a>
+      <a href="#">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <h3>Welcome to Your Classroom Portal 👋</h3>
+      <p>Share assignments, notes, and announcements with your classmates — all in one place.</p>
+    </section>
+
+    <section class="cards">
+      <div class="card">📄 Assignments</div>
+      <div class="card">📚 Notes</div>
+      <div class="card">📢 Announcements</div>
+      <div class="card">📆 Timetable</div>
+      <div class="card">💬 Chat</div>
+      <div class="card">🧑‍🤝‍🧑 Login/Register</div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Malla Reddy University | CSE General Section B | LEARN SHARE</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
