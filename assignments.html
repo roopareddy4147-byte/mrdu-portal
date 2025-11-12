@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Assignments</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f7fb; margin: 0; padding: 20px; }
+    .wrap { max-width:800px; margin:24px auto; background: #fff; padding:20px; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.06); }
+    h1 { margin-top:0; }
+    input, textarea { width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:6px; box-sizing:border-box; }
+    .row { display:flex; gap:10px; }
+    .row > * { flex:1; }
+    button { padding:10px 14px; border:none; background:#2b8cff; color:white; border-radius:6px; cursor:pointer; }
+    ul { list-style:none; padding:0; margin:0; }
+    li { padding:12px; border-bottom:1px solid #eee; }
+    .meta { color:#666; font-size:13px; margin-top:6px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:12px; }
+    .small { font-size:14px; color:#333; }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <h1>Assignments</h1>
+        <div class="small" id="userEmail">Checking login...</div>
+      </div>
+      <div>
+        <button onclick="goDashboard()">⬅ Dashboard</button>
+      </div>
+    </div>
+
+    <div id="addForm">
+      <input id="title" placeholder="Assignment title (e.g. Math HW 1)" />
+      <textarea id="description" rows="4" placeholder="Description / instructions"></textarea>
+      <div class="row">
+        <input id="dueDate" type="date" />
+        <input id="subject" placeholder="Subject (optional)" />
+      </div>
+      <button id="addBtn">Add assignment</button>
+      <p id="msg" style="color:green"></p>
+    </div>
+
+    <h3 style="margin-top:24px">All assignments</h3>
+    <ul id="list"></ul>
+  </div>
+
+  <!-- Firebase SDKs (same pattern used elsewhere) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
+
+  <script>
+    // Redirect back to dashboard
+    function goDashboard(){ window.location='dashboard.html'; }
+
+    // Check auth and show current user
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        // not logged in
+        window.location = 'login.html';
+        return;
+      }
+      document.getElementById('userEmail').innerText = 'Logged in as: ' + user.email;
+    });
+
+    // Firestore reference
+    const assignmentsRef = db.collection('assignments');
+
+    // Add assignment
+    document.getElementById('addBtn').addEventListener('click', async () => {
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const dueDate = document.getElementById('dueDate').value;
+      const subject = document.getElementById('subject').value.trim();
+      const user = auth.currentUser;
+
+      if (!user) { alert('Please log in'); return; }
+      if (!title) { alert('Please enter a title'); return; }
+
+      document.getElementById('addBtn').disabled = true;
+      document.getElementById('msg').innerText = '';
+
+      try {
+        await assignmentsRef.add({
+          title,
+          description,
+          dueDate: dueDate || null,
+          subject: subject || null,
+          createdBy: user.email,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        document.getElementById('msg').innerText = 'Assignment added ✅';
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('dueDate').value = '';
+        document.getElementById('subject').value = '';
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        document.getElementById('addBtn').disabled = false;
+      }
+    });
+
+    // Render function
+    function renderItem(doc) {
+      const data = doc.data();
+      const li = document.createElement('li');
+      const title = document.createElement('div');
+      title.innerHTML = '<strong>' + (data.title || '(no title)') + '</strong>' + (data.subject ? ' • ' + data.subject : '');
+      const desc = document.createElement('div');
+      desc.textContent = data.description || '';
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const d = data.dueDate ? ('Due: ' + data.dueDate) : '';
+      const by = data.createdBy ? (' • by ' + data.createdBy) : '';
+      meta.textContent = (d + by).replace(/^ • /,'');
+      li.appendChild(title);
+      if (data.description) li.appendChild(desc);
+      li.appendChild(meta);
+      return li;
+    }
+
+    // Real-time listener (orders by createdAt desc)
+    assignmentsRef.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+      const list = document.getElementById('list');
+      list.innerHTML = '';
+      snapshot.forEach(doc => {
+        list.appendChild(renderItem(doc));
+      });
+    });
+
+  </script>
+</body>
+</html>

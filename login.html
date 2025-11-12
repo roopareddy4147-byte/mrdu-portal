@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h2>Welcome to Your Classroom Portal Dashboard</h2>
+  <p id="userEmail"></p>
+  <button id="logoutBtn">Logout</button>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="firebase.js"></script>
+
+  <script>
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('userEmail').innerText = "Logged in as: " + user.email;
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      auth.signOut().then(() => {
+        window.location.href = "login.html";
+      });
+    });
+  </script>
+</body>
+</html>
